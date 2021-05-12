@@ -1,0 +1,41 @@
+.homepage{
+    min-height: 100vh;
+    background: #2f3c48;
+}
+.horse-main{
+    text-align: center;
+    font-size: 50px;
+}
+.actions{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container_buttons{
+    display: flex;
+    min-height: 80px;
+}
+.homebutton{
+    height: 30px;
+    border-radius: 2px;
+    cursor: pointer;
+    background: #5394bf;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    transition: .4s ease;
+}
+.homebutton p{
+padding: 0;
+margin: 0;
+transition: .4s ease;
+}
+.homebutton:hover{
+ margin-top: 0;
+}
+.homebutton p:hover{
+    padding: 0;
+    margin: 0;
+}
