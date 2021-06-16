@@ -7,6 +7,62 @@ export default function Tabla({ params }) {
         totalTabla2, format, totalCaballosComprados, totalCaballosenCasa, total, save, DetalleEnCarrera,
         utilidadTotal, handleInputChangeAcumulado, totalAcumulado, sacoDetalle } = useTabla(params.tabla)
 
+    const handleKey = (e) => {
+
+        if (e.key === 'ArrowDown') {
+            const removeInput = parseInt(e.target.id) + 1
+            const inputs = document.getElementsByName(e.target.name)
+            inputs.forEach(doc => {
+                if (parseInt(doc.id) === removeInput) {
+                    doc.focus()
+                }
+            })
+        }
+
+        if (e.key === 'ArrowUp') {
+            const removeInput = parseInt(e.target.id) - 1
+            const inputs = document.getElementsByName(e.target.name)
+            inputs.forEach(doc => {
+                if (parseInt(doc.id) === removeInput) {
+                    doc.focus()
+                }
+            })
+        }
+
+        if (e.key === 'ArrowRight') {
+
+            const removeInput = parseInt(e.target.id)
+            const inputRight = e.target.name === 'ejemplar' ? 'jugada' : e.target.name === 'jugador' ? 'ejemplar' : 'jugador'
+            const inputs = document.getElementsByName(inputRight)
+
+            if (e.target.name === 'jugador') {
+                inputs.forEach(doc => {
+                    if (parseInt(doc.id) === (removeInput + 1)) {
+                        doc.focus()
+                    }
+                })
+            } else {
+                inputs.forEach(doc => {
+                    if (parseInt(doc.id) === removeInput) {
+                        doc.focus()
+                    }
+                })
+            }
+        }
+
+        if (e.key === 'ArrowLeft') {
+            const removeInput = parseInt(e.target.id)
+            const inputLeft = e.target.name === 'jugador' ? 'jugada' : 'ejemplar'
+            const inputs = document.getElementsByName(inputLeft)
+            inputs.forEach(doc => {
+                if (parseInt(doc.id) === removeInput) {
+                    doc.focus()
+                }
+            })
+        }
+
+    }
+
     return (
         <div className="container_page">
             <div className="container">
@@ -39,9 +95,11 @@ export default function Tabla({ params }) {
                                 tabla.map((doc, index) =>
                                 (<>{doc.id !== 16 ? <tr key={index}>
                                     <td onClick={() => save(doc.id)}><input style={{ cursor: 'pointer' }} value={doc.id} /></td>
-                                    <td><input value={doc.ejemplar} name="ejemplar" id={doc.id} onChange={handleInputChange} /></td>
-                                    <td><input value={doc.jugada} name="jugada" id={doc.id} onChange={handleInputChangeJugada} /></td>
-                                    <td><input value={doc.jugador} name="jugador" style={{ textTransform: 'none' }} id={doc.id} onChange={handleInputChange} /></td>
+                                    <td><input
+                                        tabIndex={(e) => console.log(e)}
+                                        onKeyDown={(e) => handleKey(e)} value={doc.ejemplar} name="ejemplar" id={doc.id} onChange={handleInputChange} /></td>
+                                    <td><input onKeyDown={(e) => handleKey(e)} value={doc.jugada} name="jugada" id={doc.id} onChange={handleInputChangeJugada} /></td>
+                                    <td><input onKeyDown={(e) => handleKey(e)} value={doc.jugador} name="jugador" style={{ textTransform: 'none' }} id={doc.id} onChange={handleInputChange} /></td>
                                     <td className="td">{doc.jugada / 2}$</td>
                                     <td className="td"> {doc.jugador === 'C' ? 'Casa 🏠' : doc.jugador}</td>
                                     <td className="td">{doc.jugada + (doc.jugada / 2)}$</td>
@@ -58,10 +116,14 @@ export default function Tabla({ params }) {
                         <div className="box-pagan box-pagan-bg-1" ><h4>TABLA 2</h4></div>
                         <div className="box-pagan" ><h4 style={{ color: '#000' }}>{format(totalTabla2)}$</h4></div>
                         <div className="box-pagan box-pagan-bg-2" >
-                            <input value={totalAcumulado()} onChange={handleInputChangeAcumulado} style={{ width: '100%' }} />
+                            <input onChange={handleInputChangeAcumulado} style={{ width: '100%' }} defaultValue={totalAcumulado()} />
                         </div>
+
+                        <div className="box-pagan box-pagan-bg-1" ><h4>ACUMULADO</h4></div>
+                        <div className="box-paganlg"><h4>  {totalAcumulado()}$</h4></div>
+
                         <div className="box-pagan box-pagan-bg-1" ><h4>TOTAL</h4></div>
-                        <div className="box-paganlg"><h4> 💵 {format(totalTabla1 + totalTabla2)}$</h4></div>
+                        <div className="box-paganlg"><h4> 💵 {format(totalTabla1 + totalTabla2 + totalAcumulado())}$</h4></div>
                     </div>
                 </div >
                 <div className="container-premio">

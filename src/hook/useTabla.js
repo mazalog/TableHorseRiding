@@ -67,7 +67,13 @@ export default function useTabla(nTabla) {
         },
         {
             id: 9,
-
+            ejemplar: '',
+            jugada: 0,
+            jugador: '',
+            total: 0
+        },
+        {
+            id: 10,
             ejemplar: '',
             jugada: 0,
             jugador: '',
@@ -208,17 +214,21 @@ export default function useTabla(nTabla) {
 
         if (tablaEnStorage) {
             setTabla(JSON.parse(tablaEnStorage))
+        }else{
+            setTabla(rows)
         }
         if (detallesEnStorage) {
             setDetalles(JSON.parse(detallesEnStorage))
+        }else{
+            setDetalles([])
         }
         if (acumuladosEnStorage) {
             setaAcumulados(JSON.parse(acumuladosEnStorage))
+        }else{
+            setaAcumulados(arracumu)
         }
 
     }, [nTabla])
-
-
 
     const format = (num) => {
         return `${parseFloat(num.toFixed(2))}`
@@ -262,12 +272,12 @@ export default function useTabla(nTabla) {
 
     const handleInputChangeJugada = (e) => {
         if (e.target.value === '') { e.target.value = 0 }
-        setTabla(tabla.map(doc => doc.id === parseFloat(e.target.id) ? { ...doc, total: parseFloat(e.target.value) + (parseFloat(e.target.value) / 2), [e.target.name]: parseFloat(e.target.value) } : doc))
-        localStorage.setItem(nTabla, JSON.stringify(tabla.map(doc => doc.id === parseFloat(e.target.id) ? { ...doc, total: parseFloat(e.target.value) + (parseFloat(e.target.value) / 2), [e.target.name]: parseFloat(e.target.value) } : doc)))
+        setTabla(tabla.map(doc => doc.id === parseFloat(e.target.dataset.id) ? { ...doc, total: parseFloat(e.target.value) + (parseFloat(e.target.value) / 2), [e.target.name]: parseFloat(e.target.value) } : doc))
+        localStorage.setItem(nTabla, JSON.stringify(tabla.map(doc => doc.id === parseFloat(e.target.dataset.id) ? { ...doc, total: parseFloat(e.target.value) + (parseFloat(e.target.value) / 2), [e.target.name]: parseFloat(e.target.value) } : doc)))
     }
     const handleInputChange = (e) => {
-        setTabla(tabla.map(doc => doc.id === parseFloat(e.target.id) ? { ...doc, [e.target.name]: e.target.value } : doc))
-        localStorage.setItem(nTabla, JSON.stringify(tabla.map(doc => doc.id === parseFloat(e.target.id) ? { ...doc, [e.target.name]: e.target.value } : doc)))
+        setTabla(tabla.map(doc => doc.id === parseFloat(e.target.dataset.id) ? { ...doc, [e.target.name]: e.target.value } : doc))
+        localStorage.setItem(nTabla, JSON.stringify(tabla.map(doc => doc.id === parseFloat(e.target.dataset.id) ? { ...doc, [e.target.name]: e.target.value } : doc)))
     }
     const handleInputChangeAcumulado = (e) => {
         if (e.target.value === '') { e.target.value = 0 }
@@ -333,8 +343,6 @@ export default function useTabla(nTabla) {
             return 0
         }
     }
-
-
 
     return {
         tabla,

@@ -1,13 +1,11 @@
-import "./estilo.css"
-import Tabla from "./componentes/Tabla";
+import TablaPage from "./pages/TablaPage"
 import {Switch,Route} from'wouter'
-import HomePage from "./pages/home";
+import HomePage from "./pages/home"
+import "./theme.css"
 
 
-function App() {
-
-return(<>
-
+export default function App() {
+return(
    <Switch>
        <Route
        path="/"
@@ -15,11 +13,9 @@ return(<>
        />
        <Route 
        path="/:tabla"
-       component={Tabla}
+       component={TablaPage}
        />
    </Switch>  
-</>
 )
 }
 
-export default App;
